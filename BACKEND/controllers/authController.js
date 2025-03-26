@@ -1,9 +1,9 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-require('dotenv').config;
+require("dotenv").config();
 
 async function registerUser(req, res) {
-  let { fisrtName, lastName, email, password } = req.body;
+  let { firstName, lastName, email, password } = req.body;
 
   try {
     const duplicate = await User.find({ email });
@@ -11,7 +11,7 @@ async function registerUser(req, res) {
     if (duplicate && duplicate.length > 0) {
       return res.status(400).send("Email already registered");
     }
-    const user = new User({ fisrtName, lastName, email, password });
+    const user = new User({ firstName, lastName, email, password });
     await user.save();
     res.status(201).send({
       message: "User registered successfully",
@@ -33,9 +33,7 @@ async function loginUser(req, res) {
     if (!isMatch) {
       return res.status(401).send("Invalid email or password");
     }
-    const token = jwt.sign(
-        { userId : user._id }, 
-        process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     res.send({
@@ -49,7 +47,7 @@ async function loginUser(req, res) {
 
 const AuthController = {
   registerUser,
-  loginUser
+  loginUser,
 };
 
 module.exports = AuthController;
