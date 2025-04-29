@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
-import { FaLock, FaUser } from "react-icons/fa";
-import { Link } from 'react-router-dom';
-import bgImage from '../assets/bg-login.avif';
-
+import React, { useState } from "react";
+import { FaLock, FaEnvelope } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import bgImage from "../assets/bg-login.avif";
+import axios from "axios";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log({ username, password })
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log({ email, password });
+
+    try {
+      const res = await axios.post(
+        "http://localhost:1800/api/v1/user/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      localStorage.setItem("userLoggedIn", "yes");
+      alert("login successful:");
+      navigate("/task");
+    } catch (error) {
+      console.log(error.response.data.error);
+    }
+  };
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
@@ -19,13 +32,15 @@ const LoginPage = () => {
       <div className="relative hidden w-1/2 items-center justify-center  bg-black md:flex">
         <div className="absolute inset-0 z-0 opacity-50">
           <img
-            src={bgImage} 
+            src={bgImage}
             alt="Background"
             className="object-cover w-full h-full"
           />
         </div>
         <div className="z-10 text-center">
-          <h1 className="text-5xl font-bold tracking-wider text-white">TASKIFY</h1>
+          <h1 className="text-5xl font-bold tracking-wider text-white">
+            TASKIFY
+          </h1>
         </div>
       </div>
 
@@ -34,7 +49,9 @@ const LoginPage = () => {
         <div className="mx-auto w-full max-w-md">
           {/* Mobile logo - only visible on small screens */}
           <div className="mb-8 text-center md:hidden">
-            <h1 className="text-4xl font-bold tracking-wider text-white">TASKIFY</h1>
+            <h1 className="text-4xl font-bold tracking-wider text-white">
+              TASKIFY
+            </h1>
           </div>
 
           <div className="mb-8">
@@ -50,12 +67,12 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <div className="flex items-center border border-gray-700 px-3 py-2">
-                <FaUser className="mr-2 h-5 w-5 text-green-500" />
+                <FaEnvelope className="mr-2 h-5 w-5 text-green-500" />
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Username"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
                   className="w-full bg-transparent text-white focus:outline-none"
                   required
                 />
@@ -77,8 +94,10 @@ const LoginPage = () => {
             </div>
 
             <div className="mb-6 text-right">
-                
-              <Link href="/forgot-password" className="text-sm text-gray-400 hover:text-green-500">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-gray-400 hover:text-green-500"
+              >
                 Forgot Password?
               </Link>
             </div>
@@ -102,7 +121,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

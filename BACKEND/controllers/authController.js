@@ -13,9 +13,9 @@ async function registerUser(req, res) {
       return res.status(400).send("Email already registered");
     }
 
-    hashPass = bcrypt.hash(password , 10);
+    const hashPass = await bcrypt.hash(password , 10);
     
-    const user = new User({ firstName, lastName, email, password:hashPass });
+    const user = new User({ name , email, password:hashPass });
     await user.save();
 
     res.status(201).send({

@@ -1,22 +1,22 @@
-import { Link } from "react-router-dom"
-import { FaListCheck } from "react-icons/fa6"
-import { useState, useEffect } from "react"
+import { Link } from "react-router-dom";
+import { FaListCheck } from "react-icons/fa6";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        setScrolled(true)
+        setScrolled(true);
       } else {
-        setScrolled(false)
+        setScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <nav
@@ -63,5 +63,5 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }

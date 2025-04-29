@@ -1,11 +1,11 @@
 const express = require('express');
 const taskRouter = express.Router();
-const { createToDo, getTodos, updateToDo, deleteToDo } = require('../controllers/toDoController');
 const authenticateToken = require('../middleware/authjwt');
+const {getTask, deleteTask, addTask, editTask } = require('../controllers/taskController');
 
-taskRouter.post('/create-to-do', authenticateToken, createToDo);
-taskRouter.get('/get-all-to-do/:userId', authenticateToken, getTodos);
-taskRouter.patch('/update-to-do/:id', authenticateToken, updateToDo);
-taskRouter.delete('/delete-to-do/:id', authenticateToken, deleteToDo);
+taskRouter.post('/addTask', authenticateToken, addTask);
+taskRouter.get('/getTask/:id', authenticateToken, getTask);
+taskRouter.put('/editTask/:id', authenticateToken, editTask);
+taskRouter.delete('/deleteTask/:id', authenticateToken, deleteTask);
 
 module.exports = taskRouter;
