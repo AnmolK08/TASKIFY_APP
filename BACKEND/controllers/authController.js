@@ -62,9 +62,66 @@ async function loginUser(req, res) {
   }
 }
 
+async function logoutUser(req, res) {
+  try {
+    res.clearCookie("taskifyUserToken" , {
+      httpOnly : true,
+      secure : process.env.NODE_ENV === "production",
+      sameSite : "None"
+    })
+    res.status(200).send({
+      success : true,
+      message: "User logged out successfully",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.json({ success : false , message : e.message});
+  }
+}
+
+
+async function userDetails(req, res) {
+  try {
+    const user = await User.findById(req.user._id).populate("tasks").select("-password");
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const allTasks = user.tasks;
+    let yetToStart = [];
+    let inProgress = [];
+    let completed = [];
+
+    allTasks.map((item) => {
+      if (item.status === "yetToStart") {
+        yetToStart.push(item);
+      } else if (item.status === "inProgress") {
+        inProgress.push(item);
+      } else if (item.status === "completed") {
+        completed.push(item);
+      }
+    });
+
+    res.status(200).send({
+      success : true,
+      message: "User details fetched successfully",
+      tasks: [
+        { yetToStart},
+        { inProgress },
+        { completed },
+      ]
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.json({ success : false , message : e.message});
+  }
+}
+
+
 const AuthController = {
   registerUser,
   loginUser,
+  logoutUser,
+  userDetails,
 };
 
 module.exports = AuthController;

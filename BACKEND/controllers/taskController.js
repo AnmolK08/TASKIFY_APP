@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 exports.addTask = async (req, res) => {
   try {
     const {title , description , priority , status} = req.body;
-    const { user } = req.user;
+    const { user } = req;
 
     if(!title || !description){
       res.status(400).json({ error : "All feilds are required"});
@@ -40,7 +40,7 @@ exports.editTask = async (req, res) => {
   try {
     const { id } = req.params;
     const {title , description , priority , status} = req.body;
-    const { user } = req.user;
+    
 
     if(!title || !description){
       res.status(400).json({ error : "All feilds are required"});

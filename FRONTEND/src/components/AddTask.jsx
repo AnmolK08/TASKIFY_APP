@@ -1,6 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 const AddTask = ({setAddTaskDiv}) => {
+
+    const [Values, setValues] = useState({
+        title: "",
+        priority: "low",
+        status: "yetToStart",
+        description: "",
+    })
+    const addTask = async(e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post("http://localhost:1800/api/v1/task/addTask", Values, {withCredentials: true});
+        if(res.data.success) {
+            alert("Task added successfully");
+            setAddTaskDiv("hidden");
+        }
+        else {
+            alert("Error adding task");
+        }
+        setValues({
+            title: "",
+            priority: "low",
+            status: "yetToStart",
+            description: "",
+        })
+        } catch (error) {
+            console.log(error.response.data.error);
+            alert("Error adding task");
+        }
+    }
+
   return (
     <div className="bg-white rounded px-4 py-8">
       <h1 className="text-center font-semibold text-xl">Add Task</h1>
@@ -11,6 +42,8 @@ const AddTask = ({setAddTaskDiv}) => {
           className="border px-2 py-1 rounded border-zinc-300 outline-none"
           placeholder="Title"
           name="title"
+          value={Values.title}
+          onChange={(e) => setValues({...Values, title: e.target.value})}
         />
 
         <div className="flex items-center justify-between gap-4">
@@ -43,12 +76,15 @@ const AddTask = ({setAddTaskDiv}) => {
           name="description"
           placeholder="Description"
           className="border px-2 py-1 rounded border-zinc-300 outline-none h-[25vh]"
+          value={Values.description}
+          onChange={(e) => setValues({...Values, description: e.target.value})}
         ></textarea>
 
         <div className="flex items-center justify-between gap-4">
           <button
             type="submit"
             className="border px-4 py-2 rounded-md text-white bg-green-500 hover:bg-green-600"
+            onClick={addTask}
           >
             Add Task
           </button>
