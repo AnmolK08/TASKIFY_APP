@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Header = ({setAddTaskDiv}) => {
     const navigate = useNavigate();
+    
     const logout = async() => {
         try {
             const res = await axios.post("http://localhost:1800/api/v1/user/logout", {} ,{withCredentials: true});

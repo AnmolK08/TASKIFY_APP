@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { FaListCheck } from "react-icons/fa6";
 import { useState, useEffect } from "react";
+import { useAppContext } from "../context/AppContext";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { user } = useAppContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,9 +43,9 @@ export default function Navbar() {
           <Link to="/about" className="text-white hover:text-green-500">
             About Us
           </Link>
-          <Link to="/task" className="text-white hover:text-green-500">
+          {user && <Link to="/task" className="text-white hover:text-green-500">
             Task
-          </Link>
+          </Link>}
         </div>
 
         {/* Auth Buttons */}

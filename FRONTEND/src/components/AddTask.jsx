@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 const AddTask = ({setAddTaskDiv}) => {
 
@@ -14,11 +15,11 @@ const AddTask = ({setAddTaskDiv}) => {
         try {
             const res = await axios.post("http://localhost:1800/api/v1/task/addTask", Values, {withCredentials: true});
         if(res.data.success) {
-            alert("Task added successfully");
+            toast.success("Task added successfully");
             setAddTaskDiv("hidden");
         }
         else {
-            alert("Error adding task");
+            toast.error("Error adding task");
         }
         setValues({
             title: "",
@@ -28,7 +29,7 @@ const AddTask = ({setAddTaskDiv}) => {
         })
         } catch (error) {
             console.log(error.response.data.error);
-            alert("Error adding task");
+            toast.error("Error adding task");
         }
     }
 

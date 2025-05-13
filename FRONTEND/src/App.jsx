@@ -5,21 +5,38 @@ import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import LandingPage from "./pages/LandingPage";
 import TaskPage from "./pages/TaskPage";
+import { ToastContainer } from "react-toastify";
+import { useAppContext } from "./context/AppContext";
 
 const App = () => {
   const navigate = useNavigate();
-
+  const {user} = useAppContext();
+  
   useEffect(() => {
-    if (localStorage.getItem("userLoggedIn") === "yes") {
+    if (user) {
       navigate("/task");
     } else {
-      navigate("/login");
+      navigate("/");
     }
   }, []);
 
   return (
     <>
       <Navbar />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />

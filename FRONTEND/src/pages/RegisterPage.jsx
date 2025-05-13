@@ -3,6 +3,7 @@ import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import bgImg from "../assets/bg-login.avif";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -19,10 +20,10 @@ const RegisterPage = () => {
         "http://localhost:1800/api/v1/user/register",
         { name, email, password }
       );
-      alert("Registration successful:", res.data.sucesss);
+      toast.success("Register Successfully.")
       navigate("/login");
     } catch (error) {
-      console.log(error.response.data.error);
+      toast.error(error.response.data);
     }
   };
 

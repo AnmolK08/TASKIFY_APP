@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 const EditTask = ({setEditTaskDiv , EditTaskId}) => {
 
@@ -35,13 +36,13 @@ const EditTask = ({setEditTaskDiv , EditTaskId}) => {
             try {
                 const res = await axios.put(`http://localhost:1800/api/v1/task/editTask/${id}`, Values, {withCredentials: true});
             if(res.data.success) {
-                alert("Task added successfully");
+                toast.succes("Task added successfully");
                 window.sessionStorage.clear('editTaskId');
                 setEditTaskDiv("hidden");
                 window.location.reload();
             }
             else {
-                alert("Error in editing task");
+                toast.error("Error in editing task");
             }
             setValues({
                 title: "",
@@ -51,7 +52,7 @@ const EditTask = ({setEditTaskDiv , EditTaskId}) => {
             })
             } catch (error) {
                 console.log(error.response.data.error);
-                alert("Error in editing task");
+                toast.error("Error in editing task");
             }
         }
 
@@ -60,13 +61,13 @@ const EditTask = ({setEditTaskDiv , EditTaskId}) => {
             try {
                 const res = await axios.delete(`http://localhost:1800/api/v1/task/deleteTask/${id}`, {withCredentials: true});
             if(res.data.success) {
-                alert("Task added successfully");
+                toast.success("Task deleted successfully");
                 window.sessionStorage.clear('editTaskId');
                 setEditTaskDiv("hidden");
                 window.location.reload();
             }
             else {
-                alert("Error in deleting task");
+                toast.error("Error in deleting task");
             }
             setValues({
                 title: "",
@@ -76,7 +77,7 @@ const EditTask = ({setEditTaskDiv , EditTaskId}) => {
             })
             } catch (error) {
                 console.log(error.response.data.error);
-                alert("Error in deleting task");
+                toast.error("Error in deleting task");
             }
         }
 

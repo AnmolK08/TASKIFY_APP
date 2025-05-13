@@ -36,28 +36,29 @@ async function loginUser(req, res) {
     if (!user) {
       return res.status(401).send("Invalid email or password");
     }
+    console.log(user);
+    console.log(user?.password, password);
     const isMatch = await bcrypt.compare(password , user.password);
+
     if (!isMatch) {
       return res.status(401).send("Invalid email or password");
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "18d",
     });
-
     res.cookie("taskifyUserToken" , token , {
       httpOnly : true,
       maxAge : 18*24*60*60*1000,
       secure : process.env.NODE_ENV === "production",
       sameSite : "None"
-    })
-
-    res.send({
+    }).json({
       success : true,
       message: "User logged in successfully",
+      user,
       token,
     });
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
     return res.json({ success : false , message : e.message});
   }
 }

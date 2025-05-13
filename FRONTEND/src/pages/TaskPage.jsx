@@ -6,13 +6,16 @@ import YetToStart from "../components/YetToStart";
 import InProgress from "../components/InProgress";
 import Completed from "../components/Completed";
 import axios from "axios";
+import {toast} from "react-toastify";
+import { useNavigate } from "react-router";
 
 const TaskPage = () => {
   const [AddTaskDiv, setAddTaskDiv] = useState("hidden");
   const [EditTaskDiv, setEditTaskDiv] = useState("hidden");
-  const [EditTaskId, setEditTaskId] = useState(second)
+  const [EditTaskId, setEditTaskId] = useState("");
   const [Tasks, setTasks] = useState();
 
+  const navigate = useNavigate()
 
   useEffect(()=>{
     try {
@@ -21,9 +24,14 @@ const TaskPage = () => {
         if (res.status === 200) {
           setTasks(res.data.user.tasks)
         } else {
-          console.log("Error fetching user details")
+          toast.error("Error fetching user details");
         }
       }
+      
+      const token =localStorage.getItem("TaskifyUserToken")
+      if(!token)
+        return navigate("/login")
+
 
       fetUserDetails();
       if(window.localStorage.getItem('editTaskId')) {
