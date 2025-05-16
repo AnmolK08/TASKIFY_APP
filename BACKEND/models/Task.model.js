@@ -11,18 +11,18 @@ const taskSchema = new Schema(
       type: String,
       required: true,
     },
-    priority : {
-      type : String,
-      required : true,
-      enum : ["low" , "medium" , "high"],
-      default : "low",
+    priority: {
+      type: String,
+      required: true,
+      enum: ["low", "medium", "high"],
+      default: "low",
     },
-    priority : {
-      type : String,
-      required : true,
-      enum : ["yetToStart" , "inProgress" , "completed"],
-      default : "yetToStart",
-    }
+    status: {
+      type: String,
+      required: true,
+      enum: ["yetToStart", "inProgress", "completed"],
+      default: "yetToStart",
+    },
   },
   {
     timestamps: true,

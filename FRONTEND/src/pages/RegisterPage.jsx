@@ -20,10 +20,10 @@ const RegisterPage = () => {
         "http://localhost:1800/api/v1/user/register",
         { name, email, password }
       );
-      toast.success("Register Successfully.")
+      toast.success("Register Successfully.");
       navigate("/login");
     } catch (error) {
-      toast.error(error.response.data);
+      error.response?.data?.message || "Registration failed. Try again.";
     }
   };
 

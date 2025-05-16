@@ -1,41 +1,42 @@
 import React, { useState } from "react";
 import { FaLock, FaEnvelope } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bgImage from "../assets/bg-login.avif";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { useAppContext } from "../context/AppContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const {setUser} = useAppContext();
+  const navigate = useNavigate();
+  const { user, setUser } = useAppContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // const toastId = toast.loading("Logining In..");
-      const res = await axios.post('http://localhost:1800/api/v1/user/login', {
+      const res = await axios.post("http://localhost:1800/api/v1/user/login", {
         email,
-        password
+        password,
       });
 
-      console.log(res)
-    
-      setUser(res.data.user.email);
-      toast.success("Login successfully");
-      return navigate("/task")
+      const loggedInUser = res.data.user;
+      setUser(loggedInUser);
+      localStorage.setItem("user", JSON.stringify(loggedInUser));
+
+      toast.success("Login successful");
+      navigate("/task");
     } catch (error) {
       console.log(error);
-    }    
+      toast.error(error.response?.data || "Login failed");
+    }
   };
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
-      {/* Left side with blurred background image */}
-      <div className="relative hidden w-1/2 items-center justify-center  bg-black md:flex">
+      {/* Left side with background image */}
+      <div className="relative hidden w-1/2 items-center justify-center bg-black md:flex">
         <div className="absolute inset-0 z-0 opacity-50">
           <img
             src={bgImage}
@@ -50,10 +51,9 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {/* Right side with login form */}
+      {/* Right side with form */}
       <div className="flex w-full flex-col justify-center bg-black p-8 md:w-1/2">
         <div className="mx-auto w-full max-w-md">
-          {/* Mobile logo - only visible on small screens */}
           <div className="mb-8 text-center md:hidden">
             <h1 className="text-4xl font-bold tracking-wider text-white">
               TASKIFY
@@ -101,7 +101,7 @@ const LoginPage = () => {
 
             <div className="mb-6 text-right">
               <Link
-                href="/forgot-password"
+                to="/forgot-password"
                 className="text-sm text-gray-400 hover:text-green-500"
               >
                 Forgot Password?
@@ -111,7 +111,6 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-auto border ml-[35%] border-gray-700 px-8 py-2 text-white hover:border-green-500 hover:text-green-500"
-              onClick={(e)=> handleSubmit(e)}
             >
               SIGN IN
             </button>

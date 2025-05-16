@@ -1,17 +1,38 @@
+import { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 
-// Create context
 export const AppContext = createContext();
 
-// Context provider component
 export const AppContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const value = { user, setUser };
+  const [user, setUser] = useState();
 
-    return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  const [addTaskDiv, setAddTaskDiv] = useState("hidden");
+  const [editTaskDiv, setEditTaskDiv] = useState("hidden");
+  const [editTaskId, setEditTaskId] = useState("");
+  const [tasks, setTasks] = useState();
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const value = {
+    user,
+    setUser,
+    addTaskDiv,
+    setAddTaskDiv,
+    editTaskDiv,
+    setEditTaskDiv,
+    editTaskId,
+    setEditTaskId,
+    tasks,
+    setTasks,
+  };
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-// Custom hook to use the context
 export const useAppContext = () => {
-    return useContext(AppContext);
+  return useContext(AppContext);
 };

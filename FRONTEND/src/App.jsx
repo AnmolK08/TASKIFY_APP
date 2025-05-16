@@ -7,18 +7,23 @@ import LandingPage from "./pages/LandingPage";
 import TaskPage from "./pages/TaskPage";
 import { ToastContainer } from "react-toastify";
 import { useAppContext } from "./context/AppContext";
+import { useLocation } from "react-router-dom";
 
 const App = () => {
+
   const navigate = useNavigate();
-  const {user} = useAppContext();
-  
+  const { user } = useAppContext();
+  const location = useLocation();
+
   useEffect(() => {
-    if (user) {
+    const currentPath = location.pathname;
+
+    if (user && currentPath === "/") {
       navigate("/task");
-    } else {
+    } else if (!user && currentPath === "/task") {
       navigate("/");
     }
-  }, []);
+  }, [user, location]);
 
   return (
     <>

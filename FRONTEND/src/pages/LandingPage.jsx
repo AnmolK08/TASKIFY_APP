@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import bgImage from "../assets/bg-6.avif";
+import { useAppContext } from "../context/AppContext";
 
 const LandingPage = () => {
-
   return (
     <section
       className="relative w-full h-screen pt-32 pb-20 md:pt-40 md:pb-32 bg-cover bg-center bg-no-repeat"
