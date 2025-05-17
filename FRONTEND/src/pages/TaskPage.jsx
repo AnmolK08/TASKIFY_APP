@@ -9,7 +9,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router";
 import { useAppContext } from "../context/AppContext";
-import { IoCloudyNight } from "react-icons/io5";
 import EditTask from "../components/EditTask";
 
 const TaskPage = () => {
@@ -30,7 +29,6 @@ const TaskPage = () => {
           "http://localhost:1800/api/v1/user/getUserDetails",
           { withCredentials: true }
         );
-        console.log(res);
         setTasks(res.data.tasks);
       } catch (error) {
         toast.error("Failed to fetch tasks.");
@@ -42,7 +40,7 @@ const TaskPage = () => {
     if (editTaskId) {
       setEditTaskDiv("block");
     }
-  }, [user, addTaskDiv, editTaskId, setEditTaskDiv, setTasks]);
+  }, [addTaskDiv, editTaskId, setEditTaskDiv, setTasks]);
 
   if (!user) return <Navigate to="/login" />;
 

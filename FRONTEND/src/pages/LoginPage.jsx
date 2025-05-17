@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { user, setUser } = useAppContext();
+  const { setUser } = useAppContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +19,10 @@ const LoginPage = () => {
       const res = await axios.post("http://localhost:1800/api/v1/user/login", {
         email,
         password,
-      });
+      } , { withCredentials: true });
 
       const loggedInUser = res.data.user;
+      console.log(res)
       setUser(loggedInUser);
       localStorage.setItem("user", JSON.stringify(loggedInUser));
 

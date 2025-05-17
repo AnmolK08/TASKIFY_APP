@@ -83,7 +83,7 @@ const EditTask = () => {
   };
 
   return (
-    <div className="bg-zinc-900 text-white rounded px-4 py-8 max-w-lg mx-auto">
+    <div className="bg-zinc-900 text-white rounded px-4 py-8 w-lg mx-auto">
       <h1 className="text-center font-semibold text-xl">Edit Task</h1>
       <hr className="mb-4 mt-2 border-zinc-700" />
       <form
@@ -143,7 +143,7 @@ const EditTask = () => {
           }
         ></textarea>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-around gap-4">
           <button
             type="submit"
             className="border px-4 py-2 rounded-md text-white bg-green-500 hover:bg-green-600 transition-colors"

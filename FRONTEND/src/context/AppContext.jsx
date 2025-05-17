@@ -11,11 +11,16 @@ export const AppContextProvider = ({ children }) => {
   const [editTaskId, setEditTaskId] = useState("");
   const [tasks, setTasks] = useState();
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const storedUser = localStorage.getItem("user");
+  try {
+    const parsedUser = storedUser ? JSON.parse(storedUser) : "";
+    setUser(parsedUser);
+  } catch (error) {
+    console.error("Failed to parse stored user:", error);
+    setUser("");
+  }
+}, []);
+
 
   const value = {
     user,
