@@ -21,11 +21,6 @@ const LoginPage = () => {
         password,
       } , { withCredentials: true });
 
-      const loggedInUser = res.data.user;
-      console.log(res)
-      setUser(loggedInUser);
-      localStorage.setItem("user", JSON.stringify(loggedInUser));
-
       toast.success("Login successful");
       navigate("/task");
     } catch (error) {

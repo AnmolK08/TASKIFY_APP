@@ -13,7 +13,6 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ name, email, password });
 
     try {
       const res = await axios.post(

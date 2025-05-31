@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 
@@ -10,16 +11,21 @@ export const AppContextProvider = ({ children }) => {
   const [editTaskDiv, setEditTaskDiv] = useState("hidden");
   const [editTaskId, setEditTaskId] = useState("");
   const [tasks, setTasks] = useState();
+
   useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-  try {
-    const parsedUser = storedUser ? JSON.parse(storedUser) : "";
-    setUser(parsedUser);
-  } catch (error) {
-    console.error("Failed to parse stored user:", error);
-    setUser("");
-  }
-}, []);
+    const fetchUser = async () => {
+      
+      try {
+        const {data} = await axios.get("http://localhost:1800/api/v1/user/isAuthenticated" , { withCredentials : true});
+        setUser(data.user);
+      } catch (error) {
+        console.log(error.message);
+        setUser();
+      }
+    };
+
+    fetchUser();
+  }, []);
 
 
   const value = {

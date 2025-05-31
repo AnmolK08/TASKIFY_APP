@@ -45,7 +45,7 @@ async function loginUser(req, res) {
     if (!isMatch) {
       return res
         .status(401)
-        .json({ success: false, message: "Invalid email or password" });
+        .json({ success: false, message: "Invalid password" });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
@@ -93,7 +93,7 @@ async function logoutUser(req, res) {
 
 async function userDetails(req, res) {
   try {
-    const user = await User.findById(req.user._id)
+    const user = await User.findById(req.userId)
       .populate("tasks")
       .select("-password");
     if (!user) {
@@ -132,11 +132,27 @@ async function userDetails(req, res) {
   }
 }
 
+async function isAuthenticated(req, res) {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "User is authenticated", user });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ success: false, message: error.message });
+  }
+}
+
 const AuthController = {
   registerUser,
   loginUser,
   logoutUser,
   userDetails,
+  isAuthenticated,
 };
 
 module.exports = AuthController;

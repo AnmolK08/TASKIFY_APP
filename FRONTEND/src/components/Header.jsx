@@ -18,11 +18,11 @@ const Header = () => {
     );
 
     toast.success("Logout successful");
-    setUser(null);
+    setUser();
     navigate("/login");
   } catch (error) {
     toast.error("Logout failed. Please try again.");
-    setUser(null); 
+    setUser(); 
     navigate("/login");
   }
 };

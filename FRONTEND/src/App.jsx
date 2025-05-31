@@ -18,9 +18,12 @@ const App = () => {
   useEffect(() => {
     const currentPath = location.pathname;
 
+    if (user === undefined) return;
+
     if (user && currentPath === "/") {
       navigate("/task");
-    } else if (!user && currentPath === "/task") {
+    } 
+    else if (!user && currentPath === "/task") {
       navigate("/");
     }
   }, [user, location]);

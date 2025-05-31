@@ -5,7 +5,9 @@ const User = require("../models/User.model.js");
 exports.addTask = async (req, res) => {
   try {
     const { title, description, priority, status } = req.body;
-    const { user } = req;
+    const userId = req.userId;
+
+    const user = await User.findById(userId);
 
     if (!title || !description) {
       return res.status(400).json({ error: "All fields are required" });
@@ -84,7 +86,7 @@ exports.deleteTask = async (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     }
 
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.userId);
     if (user) {
       user.tasks = user.tasks.filter((taskId) => !taskId.equals(id));
       await user.save();

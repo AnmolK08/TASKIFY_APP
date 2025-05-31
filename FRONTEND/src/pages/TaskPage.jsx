@@ -42,7 +42,6 @@ const TaskPage = () => {
     }
   }, [addTaskDiv, editTaskId, setEditTaskDiv, setTasks]);
 
-  if (!user) return <Navigate to="/login" />;
 
   return (
     <div className="w-full relative">
